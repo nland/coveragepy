@@ -457,6 +457,11 @@ class CoverageScript(object):
         include = unshell_list(options.include)
         debug = unshell_list(options.debug)
 
+        # Issue #265: When using --source, --include is silently ignored
+        if source and include:
+            self.help_fn("warning: --include arguments are ignored when --source is invoked.")
+            return ERR
+
         # Do something.
         self.coverage = self.covpkg.coverage(
             data_suffix=options.parallel_mode,
