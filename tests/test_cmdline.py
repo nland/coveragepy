@@ -442,6 +442,11 @@ class CmdLineTest(BaseCmdLineTest):
             .save()
             """)
 
+    def test_bad_run_args_with_both_source_and_include(self):
+        self.command_line("run --include=pre1,pre2 --source=lol,wut foo.py", ret=ERR)
+        out = self.stdout()
+        self.assertIn("--include arguments are ignored when --source is invoked.", out)
+
     def test_bad_concurrency(self):
         self.command_line("run --concurrency=nothing", ret=ERR)
         out = self.stdout()
